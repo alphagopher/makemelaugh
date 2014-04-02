@@ -3,6 +3,7 @@
 
     <string name="app_name">MakeMeLaugh</string>
     <string name="start_makemelaugh">make me laugh</string>
+    <string name="text_footer">andrew porter software</string>
     <string name="action_settings">Settings</string>
 
 </resources>
