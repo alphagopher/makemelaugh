@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONObject;
 
 import com.aporter.makemelaugh.R;
 import com.google.android.glass.app.Card;
@@ -31,10 +32,17 @@ public class MainActivity extends Activity {
 		StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 		StrictMode.setThreadPolicy(policy);
 		
+		String jokeText = "Sad face. We couldn't find a joke :(";
+		
 		try {
 			
 			Card card = new Card(this);
-			card.setText(connect(URL));
+			
+			String rawJSON = getRandomJoke(URL);
+			JSONObject valueObject = new JSONObject(rawJSON).getJSONObject("value");
+			jokeText = valueObject.getString("joke");
+			
+			card.setText(jokeText);
 		    card.setFootnote(R.string.text_footer);
 			setContentView(card.toView());
 
@@ -46,20 +54,20 @@ public class MainActivity extends Activity {
 
 	}
 	
-	public static String connect(String urlValue) {
+	public static String getRandomJoke(String urlValue) {
 
 		String result = "An error occured.";
 		
-	    HttpClient httpclient = new DefaultHttpClient();
+	    HttpClient httpClient = new DefaultHttpClient();
 
 	    // Prepare a request object
-	    HttpGet httpget = new HttpGet(urlValue); 
+	    HttpGet httpGet = new HttpGet(urlValue); 
 	    
 	    // Execute the request
 	    HttpResponse response;
 	    
 	    try {
-	        response = httpclient.execute(httpget);
+	        response = httpClient.execute(httpGet);
 	        
 	        // Examine the response status
 	        Log.i(TAG,response.getStatusLine().toString());
@@ -73,12 +81,12 @@ public class MainActivity extends Activity {
 	        if (entity != null) {
 
 	            // A Simple JSON Response Read
-	            InputStream instream = entity.getContent();
+	            InputStream inputStream = entity.getContent();
 	            
-	            result =  convertStreamToString(instream);
+	            result =  convertStreamToString(inputStream);
 	            
 	            // now you have the string representation of the HTML request
-	            instream.close();	            
+	            inputStream.close();	            
 	        }
 
 	    } catch (Exception e) { 
@@ -88,30 +96,30 @@ public class MainActivity extends Activity {
 		return result;
 	}
 
-	    private static String convertStreamToString(InputStream is) {
+	private static String convertStreamToString(InputStream inputStream) {
 	    /*
 	     * To convert the InputStream to String we use the BufferedReader.readLine()
 	     * method. We iterate until the BufferedReader return null which means
 	     * there's no more data to read. Each line will appended to a StringBuilder
 	     * and returned as String.
 	     */
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-	    StringBuilder sb = new StringBuilder();
+	    BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+	    StringBuilder stringBuilder = new StringBuilder();
 
 	    String line = null;
 	    try {
 	        while ((line = reader.readLine()) != null) {
-	            sb.append(line + "\n");
+	        	stringBuilder.append(line + "\n");
 	        }
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    } finally {
 	        try {
-	        	is.close();
+	        	inputStream.close();
 	        } catch (IOException e) {
 	            e.printStackTrace();
 	        }
 	    }
-	    return sb.toString();
+	    return stringBuilder.toString();
 	}
 }
