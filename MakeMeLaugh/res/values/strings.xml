@@ -5,5 +5,7 @@
     <string name="start_makemelaugh">make me laugh</string>
     <string name="text_footer">andrew porter software</string>
     <string name="action_settings">Settings</string>
+    <string name="text_default_joke">I\'m fetching a joke for you&#8230;</string>
+    <string name="text_url">http://api.icndb.com/jokes/random</string>
 
 </resources>

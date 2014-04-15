@@ -22,7 +22,8 @@ public final class R {
         public static final int activity_vertical_margin=0x7f050001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int chuck_norris=0x7f020000;
+        public static final int ic_read_aloud_50=0x7f020001;
     }
     public static final class id {
         public static final int action_settings=0x7f090001;
@@ -39,7 +40,9 @@ public final class R {
         public static final int action_settings=0x7f060003;
         public static final int app_name=0x7f060000;
         public static final int start_makemelaugh=0x7f060001;
+        public static final int text_default_joke=0x7f060004;
         public static final int text_footer=0x7f060002;
+        public static final int text_url=0x7f060005;
     }
     public static final class style {
         /** 
