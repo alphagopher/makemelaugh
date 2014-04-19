@@ -11,7 +11,10 @@ import org.json.JSONObject;
 
 import com.aporter.makemelaugh.R;
 import com.google.android.glass.app.Card;
+
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -24,13 +27,15 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		try {
+			
+            //Intent menuIntent = new Intent(this, MenuActivity.class);
+            //menuIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
 			card = new Card(this);
 			card.setText(R.string.text_default_joke);
 			card.setFootnote(R.string.text_footer);
-			setContentView(card.toView());
+			setContentView(card.getView());
 			
 			GetJokeTask task = new GetJokeTask();
 			task.execute(new String[] { URL });
@@ -72,7 +77,7 @@ public class MainActivity extends Activity {
 		// @Override
 		protected void onPostExecute(String result) {
 			card.setText(result);
-			setContentView(card.toView());
+			setContentView(card.getView());
 		}
 	}
 }
